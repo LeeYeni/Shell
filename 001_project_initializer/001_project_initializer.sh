@@ -40,6 +40,16 @@ function create_directories() {
     # ----src/
     # ----README.md
     # ----.gitngnore
+
+    if [ -d "$PROJECT_NAME" ]; then
+        echo "이미 존재합니다"
+	exit
+    fi
+
+    mkdir -p "$PROJECT_NAME"/data/raw
+    mkdir -p "$PROJECT_NAME"/data/processed
+    mkdir -p "$PROJECT_NAME"/notebooks
+    mkdir -p "$PROJECT_NAME"/src
 }
 
 
@@ -47,6 +57,16 @@ function create_directories() {
 function create_templates() {
     # .gitignore, README.md 파일이 존재하지 않는다면, 새로 생성합니다.
     # 힌트: [분기]if문의 -f 옵션, [파일 생성] cat > << EOF 구조
+    
+    if [ ! -f "$PROJECT_NAME"/.gitignore ]; then
+        cat > "$PROJECT_NAME"/.gitignore << EOF
+EOF
+    fi
+
+    if [ ! -f "$PROJECT_NAME"/README.md ]; then
+        cat > "$PROJECT_NAME"/README.md << EOF
+EOF
+    fi
 }
 
 
@@ -54,12 +74,17 @@ function create_templates() {
 function write_readme_content() {
     # 힌트: [덮어쓰기] 리다이렉션(>), [파일의 맨 끝에 내용 추가하기] 리다이렉션(>>)
 
+    echo "$PROJECT_NAME" > "$PROJECT_NAME"/README.md
+    echo "$DATE" >> "$PROJECT_NAME"/README.md
+    echo "$DESCRIPTION" >> "$PROJECT_NAME"/README.md
+
 }
 
 
 # [TODO 4]. 최종적으로 생성된 프로젝트 디렉토리의 전체 구조를 출력합니다.
 function show_structure() {
     # 힌트: [파일트리 구조 출력]tree
+    tree "$PROJECT_NAME" -a
 }
 
 
